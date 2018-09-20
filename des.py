@@ -54,7 +54,7 @@ def F(t, k):
 	return r
 
 
-# uses the initial 10-bit key ki to generate all 8-bit keys
+# Uses the initial 10-bit key ki to generate all 8-bit keys
 def get_keys(ki):
 	keys = []
 
@@ -82,7 +82,7 @@ def get_keys(ki):
 	return keys
 
 
-# uses DES to encrypt a block of 8 bits using a 10-bit key
+# Uses DES to encrypt a block of 8 bits using a 10-bit key or multiple 8-bit keys generated from a 10-bit key
 def DES_block(p, keys, decrypt=False):
 
 	# detect whether a single 10-bit key or all 8-bit keys were input
@@ -121,7 +121,7 @@ def DES_block(p, keys, decrypt=False):
 	# return the ciphertext
 	return c
 
-# can encrypt a plaintext of any length of number (arbitrary length binary string)
+# Can encrypt a plaintext of any length of number (arbitrary length binary string)
 def DES(p, keys, decrypt=False):
 	# detect whether a single 10-bit key or all 8-bit keys were input
 	# if only the 10-bit key, use it to find all 8-bit keys
@@ -143,48 +143,30 @@ def DES(p, keys, decrypt=False):
 
 	return c
 
-# use DES to encrypt
+# Use DES to encrypt
 def encrypt(p, keys):
 	return DES(p, keys)
 
-# use DES to decrypt
+# Use DES to decrypt
 def decrypt(p, keys):
 	return DES(p, keys, True)
 
 
 
 if len(sys.argv) < 3:
-	print("""Program requires two or three arguments: the first is the numerical binary plaintext to be encrypted, the second is the 8-bit key to be used, and the third which can be set to True to decrypt""")
+	print("Program requires two or three arguments: the first is the binary plaintext to be encrypted, the second is the binary 8-bit key to be used, and the third which can be set to True to decrypt")
 	sys.exit(1)
 print(sys.argv)
+# convert binary string plaintext to an integer
 p = int(sys.argv[1], 2)
+# convert binary string initial key to a number
 ki = int(sys.argv[2], 2)
 decrypt = False
+# use third argument if available, make into a boolean
 if len(sys.argv) > 3:
-	decrypt = bool(sys.argv[3])
+	decrypt = bool(sys.argv[3].title())
 
+# do the encryption/decryption
 c = DES(p, ki, decrypt)
+# print the result
 print(bin(c))
-
-
-
-
-
-
-# # 8-bit plaintext
-# p = 0b10101010
-# # 10-bit initial key
-# ki = 0b1101001001
-
-# ## longer plaintext
-# # p = 0b1010101010110000101111001110011001101
-
-# # use the initial key to get the rest of them
-# keys = get_keys(ki)
-
-
-# c = encrypt(p, keys)
-# m = decrypt(c, keys)
-
-# print(bin(p))
-# print(bin(m))
